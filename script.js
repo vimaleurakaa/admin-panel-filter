@@ -3,7 +3,10 @@
 
 fetch("https://a-todo-app-default-rtdb.firebaseio.com/users.json")
   .then((response) => response.json())
-  .then((data) => localStorage.setItem("data", JSON.stringify(data)))
+  .then((data) => {
+    localStorage.setItem("data", JSON.stringify(data));
+    loadData();
+  })
   .catch((e) => console.log(e, "Error fetching"));
 
 const localStorageData = JSON.parse(localStorage.getItem("data"));
@@ -18,22 +21,23 @@ let userNames = [];
 
 let df = new DocumentFragment();
 //render user data
-userData.forEach(({ id, firstName, lastName, email, phone }) => {
-  let element = document.createElement("tr");
-  element.setAttribute("data-email", email);
-  element.innerHTML = `
+function loadData() {
+  userData.forEach(({ id, firstName, lastName, email, phone }) => {
+    let element = document.createElement("tr");
+    element.setAttribute("data-email", email);
+    element.innerHTML = `
         <td class="column1">${id}</td>
         <td class="column2">${firstName}</td>
         <td class="column3">${lastName}</td>
         <td class="column4">${email}</td>
         <td class="column5">${phone}</td>
   `;
-  userEleref.push(element);
-  userNames.push(firstName.toLowerCase());
-  df.appendChild(element);
-});
-
-dataPane.appendChild(df);
+    userEleref.push(element);
+    userNames.push(firstName.toLowerCase());
+    df.appendChild(element);
+  });
+  dataPane.appendChild(df);
+}
 
 //event listerner for datatable
 for (let i in userEleref) {
