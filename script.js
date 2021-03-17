@@ -6,6 +6,7 @@ const infoContent = document.getElementById("info-content");
 const userDataTable = document.getElementsByClassName("user");
 const searchInput = document.getElementById("search-box");
 const form = document.getElementById("form");
+const loader = document.getElementById("loader");
 let userData = [];
 let userEleref = [];
 let userNames = [];
@@ -17,12 +18,15 @@ fetch("https://a-todo-app-default-rtdb.firebaseio.com/users.json")
     userData = data;
     loadData();
   })
-  .catch((e) => console.log(e, "Error fetching"));
+  .catch((e) =>
+    alert("Error fetching data.. Please check your internet connection", e)
+  );
 
 let df = new DocumentFragment();
 //render user data
 function loadData() {
   userData.forEach(({ id, firstName, lastName, email, phone }) => {
+    loader.style.display = "none";
     let element = document.createElement("tr");
     element.setAttribute("data-email", email);
     element.innerHTML = `
@@ -37,17 +41,17 @@ function loadData() {
     df.appendChild(element);
   });
   dataPane.appendChild(df);
-}
 
-//event listerner for datatable
-for (let i in userEleref) {
-  userEleref[i].addEventListener("click", function () {
-    userEleref.forEach((element) => {
-      element.classList.remove("active");
+  //event listerner for datatable
+  for (let i in userEleref) {
+    userEleref[i].addEventListener("click", function () {
+      userEleref.forEach((element) => {
+        element.classList.remove("active");
+      });
+      displayUserDetails(this.dataset.email);
+      this.classList.add("active");
     });
-    displayUserDetails(this.dataset.email);
-    this.classList.add("active");
-  });
+  }
 }
 
 let uf = new DocumentFragment();
