@@ -1,23 +1,23 @@
 // const url =
 //   "http://www.filltext.com/?rows=32&id=%7Bnumber%7C1000%7D&firstName=%7BfirstName%7D&lastName=%7BlastName%7D&email=%7Bemail%7D&phone=%7Bphone%7C(xxx)xxx-xx-xx%7D&address=%7BaddressObject%7D&description=%7Blorem%7C32%7D";
 
-fetch("https://a-todo-app-default-rtdb.firebaseio.com/users.json")
-  .then((response) => response.json())
-  .then((data) => {
-    localStorage.setItem("data", JSON.stringify(data));
-    loadData();
-  })
-  .catch((e) => console.log(e, "Error fetching"));
-
-const localStorageData = JSON.parse(localStorage.getItem("data"));
 const dataPane = document.getElementById("dataPane");
 const infoContent = document.getElementById("info-content");
 const userDataTable = document.getElementsByClassName("user");
 const searchInput = document.getElementById("search-box");
 const form = document.getElementById("form");
-const userData = localStorageData;
+let userData = [];
 let userEleref = [];
 let userNames = [];
+
+//fetch data
+fetch("https://a-todo-app-default-rtdb.firebaseio.com/users.json")
+  .then((response) => response.json())
+  .then((data) => {
+    userData = data;
+    loadData();
+  })
+  .catch((e) => console.log(e, "Error fetching"));
 
 let df = new DocumentFragment();
 //render user data
