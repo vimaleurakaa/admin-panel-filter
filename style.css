@@ -206,3 +206,13 @@ td {
 .active td {
   color: black;
 }
+
+#loader {
+  display: block;
+  text-align: center;
+  margin: 80px;
+}
+
+#loader img {
+  width: 100px;
+}
